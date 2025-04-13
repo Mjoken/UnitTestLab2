@@ -52,12 +52,12 @@ namespace WikipediaTests
         public void SearchForValidTerm()
         {
             IWebElement searchInput = driver.FindElement(By.Id("searchInput"));
-            searchInput.SendKeys("Selenium (software)");
+            searchInput.SendKeys("Мао Цзэдун");
             driver.FindElement(By.CssSelector("button[type='submit']")).Click();
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             IWebElement title = wait.Until(d => d.FindElement(By.Id("firstHeading")));
-            Assert.That(title.Text, Is.EqualTo("Selenium (software)"));
+            Assert.That(title.Text, Is.EqualTo("Мао Цзэдун"));
         }
 
         // Тест 7: Проверка футера
@@ -89,15 +89,15 @@ namespace WikipediaTests
             driver.FindElement(By.CssSelector("button[type='submit']")).Click();
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector(".mw-search-none-results")));
-            Assert.That(errorMessage.Text, Does.Contain("There were no results matching the query"));
+            IWebElement errorMessage = wait.Until(d => d.FindElement(By.ClassName("mw-search-nonefound")));
+            Assert.That(errorMessage.Text, Does.Contain("Соответствий запросу не найдено."));
         }
 
         // Тест 10: Случайная статья
         [Test]
         public void RandomArticleLink()
         {
-            IWebElement randomLink = driver.FindElement(By.CssSelector("a[href*='Special:Random']"));
+            IWebElement randomLink = driver.FindElement(By.ClassName("link-box"));
             string initialUrl = driver.Url;
             randomLink.Click();
 
